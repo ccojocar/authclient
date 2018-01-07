@@ -1,0 +1,9 @@
+# npm debugging
+logsnpm-debug.log*
+# project dependencies
+node_modules
+package-lock.json
+# OSX folder attributes
+.DS_Store
+# temporary files
+*.tmp*~
