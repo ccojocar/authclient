@@ -8,6 +8,7 @@ const errorHandler = require('errorhandler');
 const crypto = require('crypto');
 const passport = require('passport');
 const OAuth2Strategy = require('passport-oauth2').Strategy;
+const http = require('http');
 
 const app = express();
 app.set('views', __dirname + '/views');
@@ -46,14 +47,31 @@ passport.serializeUser((user, done) => {
 passport.deserializeUser((id, done) => done(null, id));
 
 app.get('/', (req, res) => res.render('home'));
-
-app.get('/oauth2/start',
-    passport.authenticate('oauth2'));
+app.get('/userinfo', passport.authenticate('oauth2'));
 
 app.get('/oauth2/callback',
     passport.authenticate('oauth2', { failureRedirect: '/error' }),
     (req, res) => {
-        res.redirect('/');
+        const headers = { 'Authorization': `Bearer ${req.user}` };
+        http.get({
+            hostname: 'localhost',
+            port: 3000,
+            path: '/userinfo',
+            agent: false,
+            headers: headers
+        }, (userinfoResponse) => {
+            if (userinfoResponse.statusCode != 200) {
+                res.render('error');
+            } 
+            let userinfoData = '';
+            userinfoResponse.on('data', (chunk) => {
+                userinfoData += chunk;
+            });
+            userinfoResponse.on('end', () => {
+                let userinfo = JSON.parse(userinfoData);
+                res.render('userinfo', { user: userinfo });
+            })
+        });
     });
 
 app.get('/error', (req, res) => res.render('error'));
