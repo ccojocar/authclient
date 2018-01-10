@@ -33,7 +33,8 @@ passport.use(new OAuth2Strategy(
         tokenURL: "http://localhost:3000/oauth2/token",
         clientID: CLIENT_ID,
         clientSecret: CLIENT_SECRET,
-        callbackURL: "http://localhost:3001/oauth2/callback"
+        callbackURL: "http://localhost:3001/oauth2/callback",
+        //state: true,
     },
     (accessToken, refreshToken, profile, done) => {
         return done(null, accessToken);
