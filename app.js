@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(errorHandler());
 
 const cookieSecret = crypto.randomBytes(64).toString('hex');
-app.use(session({ secret: cookieSecret, resave: false, saveUninitialized: false }));
+app.use(session({ name: 'authclient-id', secret: cookieSecret, resave: false, saveUninitialized: false }));
 
 app.use(passport.initialize());
 app.use(passport.session());
@@ -34,7 +34,7 @@ passport.use(new OAuth2Strategy(
         clientID: CLIENT_ID,
         clientSecret: CLIENT_SECRET,
         callbackURL: "http://localhost:3001/oauth2/callback",
-        //state: true,
+        state: true,
     },
     (accessToken, refreshToken, profile, done) => {
         return done(null, accessToken);
