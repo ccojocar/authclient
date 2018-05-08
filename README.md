@@ -1,10 +1,10 @@
 # authclient
 
-This is a client for [authserver](https://github.com/cosmincojocar/authserver) identity provider. It can be used to validate the authorization code grant flow and also to retrieve the user details with an access token.
+This is a client for [authserver](https://github.com/ccojocar/authserver) identity provider. It can be used to validate the authorization code grant flow and also to retrieve the user details with an access token.
 
 ## Usage
 
-After [registering a client](https://github.com/cosmincojocar/authserver#client-registration) with the `authserver`, you can start the `authclient` as follows:
+After [registering a client](https://github.com/ccojocar/authserver#client-registration) with the `authserver`, you can start the `authclient` as follows:
 
 ```bash
 export CLIENT_ID=<CLIENT ID>
